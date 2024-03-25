@@ -6,6 +6,7 @@ import RightDrawer from "./RightDrawer";
 const DataList: React.FC<IDataProps> = ({ open, setOpen, id, setId }) => {
   const [productName, setProductName] = useState<string>("");
 
+  // drawer açmak için click eventi
   const clickHandler = (id: number, name: string) => {
     setId(id);
     console.log(id);

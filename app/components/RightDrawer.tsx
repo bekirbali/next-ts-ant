@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { Button, Drawer, Form, Input } from "antd";
+import { Drawer } from "antd";
 import { IDrawerProps } from "../models/models";
 import { dummyData } from "../utils/data";
-
-type FieldType = {
-  productName?: string;
-};
 
 const RightDrawer: React.FC<IDrawerProps> = ({
   open,
@@ -18,11 +14,13 @@ const RightDrawer: React.FC<IDrawerProps> = ({
 }) => {
   const [text, setText] = useState<string>("");
 
+  // form submit edildiğinde ürün adını değiştirmek için
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setProductName(text);
   };
 
+  // blurda ürün adını değiştirmek için
   const handleBlur = () => {
     setProductName(text);
     console.log(productName);
@@ -30,6 +28,7 @@ const RightDrawer: React.FC<IDrawerProps> = ({
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // inputa yazı yazarken 3 saniye sonra ürün adını otomatik değiştirmek için
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const inputValue: string = e.target.value;
     setText(inputValue);
@@ -41,6 +40,8 @@ const RightDrawer: React.FC<IDrawerProps> = ({
       setProductName(inputValue);
     }, 3000);
   };
+
+  // drawer kapatmak için click eventi
   const handleClose = () => {
     setOpen(false);
     setText("");
@@ -75,36 +76,8 @@ const RightDrawer: React.FC<IDrawerProps> = ({
             </div>
           );
         })}
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          autoComplete="off"
-          onSubmitCapture={handleSubmit}
-        >
-          <Form.Item<FieldType>
-            label="Product Name"
-            name="productName"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input
-              value={text}
-              placeholder={productName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button
-              type="dashed"
-              htmlType="submit"
-              className="text-black hover:!cursor-pointer"
-            >
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+
+        {/* ürün adı değiştirmek için input */}
         <form
           onSubmit={handleSubmit}
           className="border border-slate-500 p-4 rounded-md"
